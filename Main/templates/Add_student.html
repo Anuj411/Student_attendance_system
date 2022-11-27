@@ -1,0 +1,42 @@
+{% extends 'Master.html' %}
+{% load static %}
+
+{% block head %}
+	<title>Add student - Faculty</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-2">
+	<div class="text-muted" style="text-align:right">
+		<span class="font-weight-bold">Today's date : </span>{{ today_date }}
+	</div>
+</div>
+<div class="container my-4" style="width:400px; border:1px solid black">
+	<div class="my-4 mx-2">
+		<h2 class="display-5 text-center">Add new student</h2>
+		<form action="{% url 'post_add_student' %}" method="POST">
+			{% csrf_token %}
+			<div class="form-group">
+				<label for="studentid">ID</label>
+				<input type="text" class="form-control" id="studentid" name="studid" placeholder="Enter ID" required>
+			</div>
+			<div class="form-group">
+				<label for="rollno">Roll No</label>
+				<input type="number" class="form-control" id="rollno" name="rollno" placeholder="Enter roll no" required>
+			</div>
+			<div class="form-group">
+					<label for="fullname">Full name</label>
+					<input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter full name" required>
+			</div>
+			<div class="form-group">
+					<label for="fullname">Email</label>
+					<input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" required>
+			</div>
+			<div class="mt-4">
+				<input type="submit" class="btn btn-success mr-2" value="Add record">
+				<input type="button" class="btn btn-danger" value="back" onclick="window.history.back();">
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

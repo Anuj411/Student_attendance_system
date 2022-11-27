@@ -1,0 +1,81 @@
+{% extends 'Master.html' %}
+{% load static %}
+
+{% block head %}
+	<title>Generate report - Faculty</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-2">
+	<div class="text-muted" style="text-align:right">
+		<span class="font-weight-bold">Today's date : </span>{{ today_date }}
+	</div>
+</div>
+<div class="container my-4">
+	<h2 class="display-5 text-center">Generate report</h2>
+	<div class="text-center my-3">
+		<form action="{% url 'post_report' %}" method="POST" onsubmit="return validate_date()">
+			{% csrf_token %}
+				<label for="startdt">Start date : </label>
+				<input type="date" class="mr-3" id="startdt" name="startdate" required>
+				<label for="enddt">End date : </label>
+				<input type="date" class="mr-3" id="enddt" name="enddate" required>
+				<input type="submit" class="btn btn-success mr-2" value="Submit">
+		</form>
+	</div>
+
+	{% if records %}
+	<section>
+		<div class="text-muted text-center my-4">
+			<div><b>Duration : </b>{{ request.session.sdate }} - {{ request.session.edate }}</div>
+			<div><b>Total lectures : </b>{{total_lecture}}</div>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Roll no</th>
+					<th>ID</th>
+					<th>Full name</th>
+					<th>Total presents</th>
+					<th>Total absents</th>
+					<th>Percentage</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for stud, pre, abs, percent in records %}
+					<tr>
+						<th class="text-uppercase">{{ stud.roll_no }}</th>
+						<th class="text-uppercase">{{ stud.stu_id }}</th>
+						<td class="text-capitalize">{{ stud.full_name }}</td>
+						<td class="pl-5">{{ pre }}</td>
+						<td class="pl-5">{{ abs }}</td>
+						<td>{{ percent }} %</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="text-center">
+			<a href="{% url 'generate_report' %}" target="_blank" class="btn btn-success mb-3">
+				Generate report
+			</a>
+		</div>
+	</section>
+	{% endif %}
+</div>
+
+<script>
+	function validate_date(){
+		let sdate = document.getElementById('startdt').value;
+		let edate = document.getElementById('enddt').value;
+
+		if(sdate > edate){
+			alert("Start date is greater than end date !!!");
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+</script>
+
+{% endblock %}

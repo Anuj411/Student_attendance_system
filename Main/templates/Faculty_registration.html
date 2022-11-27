@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Faculty Registration - Faculty</title>
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'css/Form_design2.css' %}"/>
+	<script src="{% static 'js/Registration_validation.js' %}"></script>
+	<link rel="shortcut icon" type="image/png" href="/media/logo2.png"/>
+</head>
+<body>
+	<section>
+		<center>
+		<div class="wrapper my-5">
+			<img height="100" src="/media/logo.jpg" />
+			<h2 class="my-3">Faculty Registration</h2>
+			<form action="{% url 'post_register' %}" onsubmit="return val_form()" method="POST">
+				{% csrf_token %}
+				<div class="input-box">
+					<input type="text" id="name" name="name" placeholder="Enter full name" required>
+				</div>
+				<div class="input-box">
+					<input type="text" id="uname" name="uname" placeholder="Enter username" required>
+				</div>
+				<div class="input-box">
+					<input type="email" id="email" name="email" placeholder="Enter email address" required>
+				</div>
+				<div class="input-box">
+					<input type="password" id="pass1" name="pass1" placeholder="Create password" required>
+				</div>
+				<div class="input-box" id="passwordDiv">
+					<input type="password" id="pass2" name="pass2" placeholder="Confirm password" required>
+					<span id="error" class="text-danger"></span>
+				</div>
+				<div style="text-align:left">
+					<span class="font-weight-bold">Select subject :</span><br>
+					{% for s in subjects %}
+						<span class="px-4">
+							<input class="form-check-input" type="radio" id="{{ s.sub_name }}" name="subject" value="{{s.id}}">
+							<label class="form-check-label" for="{{ s.sub_name }}">
+								<span class="text-uppercase">{{ s.sub_name }}</span>
+							</label>
+						</span>
+					{% endfor %}
+				</div>
+				<div class="input-box button">
+					<input type="Submit" style="font-weight:bold;font-size:18px" value="Register Now">
+				</div>
+				<div class="text">
+					<h3>Already have an account? <a href="{% url 'faculty_login' %}" style="color:rgba(17, 25, 138, 0.658)">Login now</a></h3>
+				</div>
+			</form>
+		</div>
+		</center>
+	</section>
+</body>
+</html>
