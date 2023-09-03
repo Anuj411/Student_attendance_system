@@ -1,0 +1,99 @@
+{% extends 'Master.html' %}
+{% load static %}
+
+{% block head %}
+	<title>Home - Faculty</title>
+	<script>
+		var send_data;
+		$().ready(function(){
+			send_data=function(is_present, stud_id){
+				$.ajax({
+					type:"GET",
+					url: "{% url 'attendance' %}",
+					data: {
+						'is_present': is_present,
+						'stud_id': stud_id,
+						'sub_id': {{ subject.id }}
+					},
+					dataType: 'json',
+					success: function (data) {
+						console.log(data.success);
+					}
+				});
+			}
+		});
+
+		function display_status(is_present, stud_id){
+			if(is_present==1){
+				document.getElementById(stud_id).innerText="P";
+			}
+			else{
+				document.getElementById(stud_id).innerText="A";
+			}
+		}
+
+		function fill_att(is_present, stud_id)
+		{
+			send_data(is_present, stud_id);
+			display_status(is_present, stud_id);
+		}
+	</script>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+	<div class="text-muted mt-3 ml-3">
+		<div><span class="font-weight-bold">Today's date : </span>{{ today_date }}</div>
+		<div><span class="font-weight-bold">Faculty name : </span>{{ faculty.fac_name }}</div>
+		<div><span class="font-weight-bold">Subject : </span>{{ subject.sub_name }}</div>
+		<div class="float-right"><b>Total students : </b>{{ students.count }}</div>
+	</div>
+	<div class="container my-5 pb-4">
+		<h2 class="display-5 text-center">Students list</h2>
+		<section>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Roll no</th>
+						<th>ID</th>
+						<th>Full name</th>
+						<th>P/A</th>
+						<th>Attendence</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for s in students %}
+						<tr>
+							<th class="text-uppercase">{{ s.roll_no }}</th>
+							<th class="text-uppercase">{{ s.stu_id }}</th>
+							<td class="text-capitalize">{{ s.full_name }}</td>
+							<td id="{{s.id}}">-</td>
+							<td>
+								<button type="button" class="btn btn-success" onclick="fill_att(1, {{s.id}})">P</button>
+								<button type="button" class="btn btn-danger ml-2" onclick="fill_att(0, {{s.id}})">A</button>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</section>
+		<div class="float-right">
+			<form method="post" action="{% url 'total_presence' %}">
+				{% csrf_token %}
+				<b>Total presence : </b>
+				<span>
+					{% if request.session.total_presence %}
+						{{request.session.total_presence}}
+					{% endif %}
+				<span>
+				<input type="submit" class="btn btn-link" value="Count" />
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+	{% for stud_id, is_present in attendance.items %}
+		display_status({{is_present}}, {{stud_id}});
+	{% endfor %}
+</script>
+{% endblock %}

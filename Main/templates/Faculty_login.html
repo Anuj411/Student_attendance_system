@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Faculty login - Faculty</title>
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'css/Form_design2.css' %}"/>
+	<link rel="shortcut icon" type="image/png" href="/media/logo2.png"/>
+	<script>
+		{% if msg %}
+			alert("{{msg}}");
+			window.location.href = "{% url 'faculty_login'%}";
+		{% endif %}
+	</script>
+</head>
+<body>
+	<section>
+		<center>
+			<div class="wrapper my-5">
+				<img height="100" src="/media/logo2.png" />
+				<h2 class="my-3">Faculty Login</h2>
+				<form action="{% url 'post_login' %}" method="POST">
+					{% csrf_token %}
+					<div class="input-box">
+						<input type="text" id="uname" name="uname" placeholder="Enter your username" {% if uname %} value="{{uname}}" {% endif %} required>
+					</div>
+					<div class="input-box">
+						<input type="password" id="pass" name="pass" placeholder="Create password" {% if pass %} value="{{pass}}" {% endif %} required>
+					</div>
+					<div class="input text-left ml-4">
+						<input class="form-check-input" type="checkbox" id="rem" name="remember">
+						<label class="form-check-label" for="rem">
+							Remember me
+						</label>
+					</div>
+					<div class="input-box button">
+						<input type="Submit" style="font-weight:bold;font-size:18px" value="Login Now">
+					</div>
+					<div class="text">
+						<h3>New member? <a href="{% url 'faculty_register' %}" style="color:rgba(17, 25, 138, 0.658)">Register now</a></h3>
+					</div>
+				</form>
+			</div>
+		</center>
+	</section>
+</body>
+</html>

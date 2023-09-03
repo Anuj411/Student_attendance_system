@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Attendence report - Faculty</title>
+</head>
+<body>
+    <center>
+        <h1>Attendence Report</h1>
+        <div>
+            <div><b>Faculty name : </b>{{ faculty }}</div>
+            <div><b>Subject : </b>{{ subject }}</div>
+            <div><b>Duration : </b>{{ s_date }} - {{ e_date }}</div>
+            <div><b>Total lectures : </b>{{total_lecture}}</div>
+        </div>
+        <br>
+        <br>
+        <table border="1" cellspacing="0" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Roll no</th>
+                    <th>ID</th>
+                    <th>Full name</th>
+                    <th>Total presents</th>
+                    <th>Total absents</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stud, pre, abs, percent in records %}
+                    <tr>
+                        <th>{{ stud.roll_no }}</th>
+                        <th>{{ stud.stu_id }}</th>
+                        <td>{{ stud.full_name }}</td>
+                        <td>{{ pre }}</td>
+                        <td>{{ abs }}</td>
+                        <td>{{ percent }} %</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </center>
+</body>
+</html>
