@@ -62,11 +62,11 @@ def total_presence(request):
 
 def faculty_login(request):
 	# If cookie has variable uname then, get username and password from cookies
-	if request.COOKIES.get('uname'):
-		uname = request.COOKIES.get('uname')
-		passw = request.COOKIES.get('pass')
+	# if request.COOKIES.get('uname'):
+	# 	uname = request.COOKIES.get('uname')
+	# 	passw = request.COOKIES.get('pass')
 
-		return render(request,'Faculty_login.html', {"uname":uname, "pass":passw})
+	# 	return render(request,'Faculty_login.html', {"uname":uname, "pass":passw})
 	return render(request,'Faculty_login.html')
 	##
 
